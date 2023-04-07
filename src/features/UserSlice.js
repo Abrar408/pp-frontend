@@ -4,8 +4,6 @@ const initialState ={
     currUser:{
         username:'',
         email:'',
-        gender:'',
-        joined:''
     },
     accessToken:'',    
 };

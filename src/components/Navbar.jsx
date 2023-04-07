@@ -41,36 +41,51 @@ const iconStyle = {
     ':focus':{backgroundColor:hoverBgCol, color:fontFocusCol}
 };
 const rightIcon = {...iconStyle, m:'0px 5px'}
-const navLinks = ['Your work', 'Projects', 'Filters', 'Dashboards', 'Teams', 'Apps'];
+let navLinks = [];
 
-const Navbar = () => {  
+const Navbar = ({user}) => {  
+    if(user){
+        navLinks = ['Your work', 'Projects', 'Filters', 'Dashboards', 'Teams', 'Apps'];
+    }
   return (
     <div className='toolbar'>
         <div>
             <AppsIcon sx={iconStyle}/>
-        </div>     
+        </div> 
+            
         <div className='nav-logo'>
-            <img src='../../jira-logo.png'></img>
+            <img src={user ? '../../jira-logo.png' : '../../atlassian-logo.png'}></img>
         </div>  
-        {
+        
+        {            
             navLinks.map((link, index) => 
                 <Button key={index} sx={navBtnStyle} endIcon={<KeyboardArrowDownIcon sx={navBtnArrowStyle}/>}>
                     {link}
                 </Button> 
             )
-        }       
-        <Button variant='contained' sx={{textTransform:'none',fontWeight:'bold',backgroundColor:fontFocusCol, height:'32px',width:'70px',ml:'10px'}}>Create</Button>
-
-        <div className='right-nav'>
-            <div className='search-container'>
-                <SearchIcon sx={{width:'18px',color:'gray'}}/>
-                <input placeholder='Search' className='nav-input'></input>
+        }  
+        {user ? (
+            <>
+            <Button variant='contained' sx={{textTransform:'none',fontWeight:'bold',backgroundColor:fontFocusCol, height:'32px',width:'70px',ml:'10px'}}>Create</Button>
+            <div className='right-nav'>
+                <div className='search-container'>
+                    <SearchIcon sx={{width:'18px',color:'gray'}}/>
+                    <input placeholder='Search' className='nav-input'></input>
+                </div>
+                <NotificationsIcon sx={rightIcon}/>
+                <HelpIcon sx={rightIcon}/>
+                <SettingsIcon sx={rightIcon}/>
+                <AccountCircleIcon sx={rightIcon}/>
             </div>
-            <NotificationsIcon sx={rightIcon}/>
-            <HelpIcon sx={rightIcon}/>
-            <SettingsIcon sx={rightIcon}/>
-            <AccountCircleIcon sx={rightIcon}/>
-        </div>        
+            </>) 
+            : 
+            (
+                <Button variant='contained' sx={{textTransform:'none',fontWeight:'bold',backgroundColor:fontFocusCol, height:'32px',width:'70px',ml:'auto'}}>Login</Button>
+            ) 
+            }     
+        
+
+                
     </div>    
   )
 }
