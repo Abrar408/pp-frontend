@@ -7,12 +7,15 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import { Button } from '@mui/material';
+import { contentIntro,contentProject,contentIssue,contentActivity} from '../data/content';
 
 const iconStyle = {color:'#42526E'};
 const btnStyle = {color:'#42526E', backgroundColor:'#F5F6F8',textTransform:'none',m:'0px 5px',fontWeight:'bold',fontSize:'13px',height:'32px'};
-const dashRight = [{heading:'Assigned to me'},{heading:'Your Company JIRA'}];
-const dashLeft = [{heading:'Introduction'},{heading:'Projects'}];
+const dashboardRight = [{heading:'Assigned to Me',content:contentIssue()},{heading:'Activity Streams',content:contentActivity()}];
+const dashboardLeft = [{heading:'Introduction',content:contentIntro()},{heading:'Projects',content:contentProject()}];
+
 const Dashboard = () => {
+  
   return (
     <div className='dashboard'>
       <div className='header'>
@@ -29,7 +32,7 @@ const Dashboard = () => {
       <div className='cards'>
         <div className="left-column">
           {
-            dashLeft.map((d,i)=>(
+            dashboardLeft.map((d,i)=>(
               <div className='card'>
                 <div className='card-header'>
                   <span>{d.heading}</span>
@@ -39,7 +42,7 @@ const Dashboard = () => {
                     <CachedIcon/>
                   </div>
                 </div>
-                <div className='card-content'></div>
+                <div className='card-content'>{d.content}</div>
                 <div className='card-footer'>
                   <CachedIcon sx={{width:'16px'}} />
                   <span>2 hours ago</span>
@@ -50,7 +53,7 @@ const Dashboard = () => {
         </div>
         <div className="right-column">
         {
-            dashRight.map((d,i)=>(
+            dashboardRight.map((d,i)=>(
               <div className='card'>
                 <div className='card-header'>
                   <span>{d.heading}</span>
@@ -60,7 +63,7 @@ const Dashboard = () => {
                     <CachedIcon/>
                   </div>
                 </div>
-                <div className='card-content'></div>
+                <div className='card-content'>{d.content}</div>
                 <div className='card-footer'>
                   <CachedIcon sx={{width:'16px'}} />
                   <span>2 hours ago</span>
