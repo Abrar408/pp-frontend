@@ -40,7 +40,7 @@ function App() {
       <Navbar user={user} />
       <Routes>
         <Route path='/' element={loading ? <Loading/> : user ? navigate('/dashboard'):<SignInSignOut/>} />
-        <Route path='/dashboard' element={<Dashboard/>} />
+        {/* <Route path='/dashboard' element={<Dashboard/>} /> */}
       </Routes>
     </>    
   )
