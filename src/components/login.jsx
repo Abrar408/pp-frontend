@@ -2,13 +2,18 @@ import { Avatar, Button, Checkbox, FormControlLabel, Grid, Link, Paper, TextFiel
 import React, {  useState } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
-// import { setCurrUser, setLoggedInUser, setAccessToken} from '../features/UserSlice';
+import { setCurrUser, setAccessToken} from '../features/UserSlice';
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({setAuth}) => {
-    // const dispatch = useDispatch();
+const fontCol = '#344563';
+const hoverBgCol = '#ddedff';
+const fontFocusCol = '#2C53CC';
+
+const Login = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [cred,setCred] = useState({
@@ -45,9 +50,8 @@ const Login = ({setAuth}) => {
                 })
                 .then(res =>{
                     if(res.status == 200){
-                        // dispatch(setCurrUser(res.data.result));
-                        // dispatch(setLoggedInUser(res.data.result));
-                        // dispatch(setAccessToken(res.data.accessToken));
+                        dispatch(setCurrUser(res.data.resCred));
+                        dispatch(setAccessToken(res.data.accessToken));
                         navigate('/dashboard');
                     }
                 })
@@ -65,7 +69,6 @@ const Login = ({setAuth}) => {
     <Grid>        
         <Paper sx={{padding:'20px'}}>
             <Grid align='center' >
-                <Avatar sx={{backgroundColor:'seagreen'}}><LockOutlinedIcon/></Avatar>
                 <h2>Login</h2>
             </Grid>  
             <TextField value={cred.email} onChange={(e)=>{setCred({...cred,email:e.target.value})}} size='small' label='Email' variant='outlined'
@@ -74,8 +77,8 @@ const Login = ({setAuth}) => {
             placeholder='Enter Password' type='password' required sx={{width:'100%',m:'10px 0px'}} />  
             <Typography color='red'>{err}</Typography>
             <FormControlLabel control={<Checkbox />} label="Remember Me" />  
-            <Button endIcon={<ArrowForwardRoundedIcon/>} variant='contained' type='submit' fullWidth onClick={loginUser} >Login</Button>    
-            <Button fullWidth variant='contained' sx={{backgroundColor:'black',mt:'10px'}} onClick={handleGithubLogin}>Login with Github</Button>
+            <Button endIcon={<ArrowForwardRoundedIcon/>} variant='contained' type='submit' fullWidth onClick={loginUser} sx={{backgroundColor: fontFocusCol}}>Login</Button>    
+            <Button startIcon={<GitHubIcon sx={{color:'white'}}/>} fullWidth variant='contained' sx={{backgroundColor:'black',mt:'10px'}} onClick={handleGithubLogin}>Login with Github</Button>
             <Typography sx={{m:'20px 0px 10px 0px'}}>
                 <Link>
                     Forgot Password?

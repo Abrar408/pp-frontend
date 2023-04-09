@@ -58,3 +58,11 @@
 .card-footer span{
     font-size: small;
 }
+
+.hide{
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: calc(100% - 56px);
+    background-color: #000000e1;
+}

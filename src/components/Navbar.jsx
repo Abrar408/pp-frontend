@@ -9,6 +9,9 @@ import HelpIcon from '@mui/icons-material/Help';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import axios from 'axios';
+import { useSelector,useDispatch } from 'react-redux';
+import { setCurrUser, setAccessToken } from '../features/UserSlice';
+import { useNavigate } from 'react-router-dom';
 
 const fontCol = '#344563';
 const hoverBgCol = '#ddedff';
@@ -44,37 +47,62 @@ const iconStyle = {
 const rightIcon = {...iconStyle, m:'0px 5px'}
 let navLinks = [];
 
-const Navbar = ({user}) => {  
+const Navbar = () => {  
+    const navigate = useNavigate();
+    const currUser = useSelector((state)=> state.user.currUser);
+    const dispatch = useDispatch();
+
+    const showLogin = () => {
+        var element = document.getElementsByClassName("animate");
+        for (let el of element) {
+            el.classList.remove('animate');
+            el.classList.add('show');
+        }
+    }
+
+    const hideBg = () => {
+        var element = document.getElementById("dashboard");
+        element.classList.add("hide");
+    }
+    const showBg = () => {
+        var element = document.getElementById("dashboard");
+        element.classList.remove("hide");
+    }
 
 const handleLogout = async () => {
-    // await axios.get('http://localhost:3000/logout/')
-    // .then(res => console.log(res.statusCode))
-    // .catch(err => console.log(err))
-    window.open("http://localhost:3000/logout", "_self");
+    await axios.get('http://localhost:3000/logout/',{
+        withCredentials: true,
+    })
+    .then(res => {
+        console.log(res);
+        dispatch(setCurrUser(''))
+        dispatch(setAccessToken(''))
+        navigate('/');
+            
+    })
+    .catch(err => console.log(err))
 }
 
-    if(user){
+    if(currUser.username){
         navLinks = ['Your work', 'Projects', 'Filters', 'Dashboards', 'Teams', 'Apps'];
     }
   return (
     <div className='toolbar'>
-        <div>
-            <AppsIcon sx={iconStyle}/>
-        </div> 
-            
-        <div className='nav-logo'>
-            <img src={user ? '../../jira-logo.png' : '../../atlassian-logo.png'}></img>
-        </div>  
-        
-        {            
+        {currUser.username ? 
+        (<>
+            <div>
+                <AppsIcon sx={iconStyle}/>
+            </div> 
+            <div className='nav-logo'>
+                <img src='../../jira-logo.png'></img>
+            </div>
+            {            
             navLinks.map((link, index) => 
                 <Button key={index} sx={navBtnStyle} endIcon={<KeyboardArrowDownIcon sx={navBtnArrowStyle}/>}>
                     {link}
                 </Button> 
             )
-        }  
-        {user ? (
-            <>
+            }
             <Button variant='contained' sx={{textTransform:'none',fontWeight:'bold',backgroundColor:fontFocusCol, height:'32px',width:'70px',ml:'10px'}}>Create</Button>
             <div className='right-nav'>
                 <div className='search-container'>
@@ -85,23 +113,24 @@ const handleLogout = async () => {
                 <HelpIcon sx={rightIcon}/>
                 <SettingsIcon sx={rightIcon}/>
                 <div className='account-container'>
-                    <IconButton>
+                    <IconButton sx={{p:0,m:0,width:'32px',height:'32px'}} onBlur={showBg} onFocus={hideBg}>
                         <AccountCircleIcon className='account' sx={rightIcon}/>
                     </IconButton>
                     <div className='hidden'>
-                        <button>logout</button>
+                        <div>{currUser.username}</div>
+                        <button style={{fontSize:'15px',fontWeight:'bold'}} onClick={handleLogout}>Logout</button>
                     </div>
                 </div>
             </div>
-            </>) 
-            : 
-            (
-                <Button variant='contained' sx={{textTransform:'none',fontWeight:'bold',backgroundColor:fontFocusCol, height:'32px',width:'70px',ml:'auto'}}>Login</Button>
-            ) 
-            }     
-        
-
-                
+        </>) 
+        : 
+        (<>
+            <div className='nav-logo'>
+            <img src='../../atlassian-logo.png'></img>
+            </div>
+            <Button variant='contained' sx={{textTransform:'none',fontWeight:'bold',backgroundColor:fontFocusCol, height:'32px',width:'70px',ml:'auto'}} onClick={showLogin}>Login</Button>
+        </>)
+        }        
     </div>    
   )
 }

@@ -7,13 +7,15 @@ import Box from '@mui/material/Box';
 import { Grid, Paper } from '@mui/material';
 import Login from '../components/login'
 import Register from '../components/register';
-// import LoginImage from '../assets/login.jpg'
+// import '../styles/index.css'
+import LoginImage from '../assets/landing.jpg';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <div 
+      
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -51,12 +53,14 @@ export default function BasicTabs(props) {
 
   return (
     <>
-    <div style={{width:'95vw',height:'95vh',display:'flex'}}>
-      <div style={{margin:'0px',flex:'1'}}>
-        {/* <img src={LoginImage} alt="Login Image" width='62%' /> */}
+    <div style={{height:'91vh',display:'flex'}}>
+        <p style={{position:'absolute',left:'50px',top:'10px',fontSize:'70px',color:'#344563'}}>Its possible</p>
+        <p style={{position:'absolute',left:'200px',top:'80px',fontSize:'70px',color:'#344563'}}>with teamwork</p>
+      <div style={{margin:'0px',flex:'1',display:'flex',justifyContent:'center',alignItems:'flex-end'}}>        
+        <img src={LoginImage} alt="Login Image" width="700px" height="500px" />
       </div>
-      <div style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
-        <Paper elevation={10} sx={{width:'300px', margin:'auto',display:'inline-block'}}>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'center',marginRight:'50px'}}>
+        <Paper className='animate' sx={{width:'300px', margin:'auto'}}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
               <Tab label="Login" {...a11yProps(0)} sx={{margin:'0px auto'}}/>
@@ -64,7 +68,7 @@ export default function BasicTabs(props) {
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-            <Login setAuth={props.setAuth}/>
+            <Login/>
           </TabPanel>
           <TabPanel value={value} index={1}>
             <Register />

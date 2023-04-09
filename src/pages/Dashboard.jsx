@@ -1,5 +1,5 @@
 import '../styles/dashboard.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import CachedIcon from '@mui/icons-material/Cached';
 import EditIcon from '@mui/icons-material/Edit';
@@ -8,6 +8,10 @@ import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import { Button } from '@mui/material';
 import { contentIntro,contentProject,contentIssue,contentActivity} from '../data/content';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAccessToken, setCurrUser } from '../features/UserSlice';
 
 const fontCol = '#344563';
 const hoverBgCol = '#ddedff';
@@ -27,8 +31,35 @@ const dashboardRight = [{heading:'Assigned to Me',content:contentIssue()},{headi
 const dashboardLeft = [{heading:'Introduction',content:contentIntro()},{heading:'Projects',content:contentProject()}];
 
 const Dashboard = () => {
+  const navigate = useNavigate()
+  // const [loading,setLoading] = useState(true)
+  const currUser = useSelector((state)=> state.user.currUser);
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   const verifyToken = async () => {
+  //     await axios.get('http://localhost:3000/refresh',{
+  //       withCredentials: true,
+  //     })
+  //     .then(res => {
+  //       dispatch(setCurrUser(res.data.resCred));
+  //       dispatch(setAccessToken(res.data.accessToken));
+  //       // setUser(true) 
+  //       // setLoading(false);
+  //     })
+  //     .catch(err => {
+  //       console.error(err);
+  //       // setLoading(false);
+  //       // setUser(false);
+  //       navigate('/');
+  //     })
+  //   }
+  //   verifyToken();
+  // },[])
   
   return (
+    <>
+    <div id='dashboard'></div>
     <div className='dashboard'>
       <div className='header'>
         <span style={txtStyle}>
@@ -86,6 +117,7 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

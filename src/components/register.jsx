@@ -1,7 +1,13 @@
 import { Avatar, Button, Checkbox, FormControlLabel, FormLabel, Grid, Link, Paper, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import DoneIcon from '@mui/icons-material/Done';
 import axios from 'axios';
+
+const fontCol = '#344563';
+const hoverBgCol = '#ddedff';
+const fontFocusCol = '#2C53CC';
 
 const Register = () => {
     const [cred,setCred] = useState({
@@ -82,7 +88,9 @@ const Register = () => {
             })
         }
     }
-
+    const handleGithubLogin = async () => {
+        window.open("http://localhost:3000/auth/github", "_self");
+    }
   return (
     <>
     <Grid>        
@@ -96,23 +104,14 @@ const Register = () => {
             <TextField id='tf2' className='req' value={cred.email} onChange={(e)=>{setCred({...cred,email:e.target.value})}} size='small' label='Email' variant='outlined'
             placeholder='Enter email' required type='email' sx={{width:'100%',m:'10px 0px'}} />
             
-            <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                row
-                name="radio-buttons-group"
-                >
-                <FormLabel sx={{m:'auto auto auto 0px'}}>Gender</FormLabel>
-                <FormControlLabel value="male" control={<Radio />} label="Male" onChange={(e)=>{setCred({...cred,gender:e.target.value})}}/>
-                <FormControlLabel value="female" control={<Radio />} label="Female" onChange={(e)=>{setCred({...cred,gender:e.target.value})}}/>
-            </RadioGroup>
             <TextField id='tf3' className='req' value={cred.pass} onChange={(e)=>{setCred({...cred,pass:e.target.value})}} size='small' label='Password' variant='outlined'
             placeholder='Enter Password' type='password' required sx={{width:'100%',m:'10px 0px'}} />
             <TextField id='tf4' className='req' value={cred.confirmPass} onChange={(e)=>{setCred({...cred,confirmPass:e.target.value})}} size='small' label='Confirm Password' variant='outlined'
             placeholder='Enter Password Again' type='password' required sx={{width:'100%',m:'10px 0px'}} /> 
             <Typography color='red'>{err}</Typography>
             <FormControlLabel control={<Checkbox checked={checkBox} onChange={(e)=>{setCheckBox(e.target.checked)}}/>} label="I accept terms and conditions" />              
-            <Button variant='contained' type='submit' fullWidth sx={{mb:'10px'}} onClick={registerUser}>Register</Button>    
-            
+            <Button endIcon={<DoneIcon/>} variant='contained' type='submit' fullWidth onClick={registerUser} sx={{backgroundColor: fontFocusCol}}>Register</Button>    
+            <Button startIcon={<GitHubIcon sx={{color:'white'}}/>} fullWidth variant='contained' sx={{backgroundColor:'black',m:'10px 0px'}} onClick={handleGithubLogin}>Register with Github</Button>
             <Typography>
                 Already have an account? 
                 <Link>
