@@ -8,6 +8,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import HelpIcon from '@mui/icons-material/Help';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import axios from 'axios';
 
 const fontCol = '#344563';
 const hoverBgCol = '#ddedff';
@@ -44,6 +45,14 @@ const rightIcon = {...iconStyle, m:'0px 5px'}
 let navLinks = [];
 
 const Navbar = ({user}) => {  
+
+const handleLogout = async () => {
+    // await axios.get('http://localhost:3000/logout/')
+    // .then(res => console.log(res.statusCode))
+    // .catch(err => console.log(err))
+    window.open("http://localhost:3000/logout", "_self");
+}
+
     if(user){
         navLinks = ['Your work', 'Projects', 'Filters', 'Dashboards', 'Teams', 'Apps'];
     }
@@ -75,7 +84,14 @@ const Navbar = ({user}) => {
                 <NotificationsIcon sx={rightIcon}/>
                 <HelpIcon sx={rightIcon}/>
                 <SettingsIcon sx={rightIcon}/>
-                <AccountCircleIcon sx={rightIcon}/>
+                <div className='account-container'>
+                    <IconButton>
+                        <AccountCircleIcon className='account' sx={rightIcon}/>
+                    </IconButton>
+                    <div className='hidden'>
+                        <button>logout</button>
+                    </div>
+                </div>
             </div>
             </>) 
             : 
