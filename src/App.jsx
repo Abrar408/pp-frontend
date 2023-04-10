@@ -8,6 +8,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import { setCurrUser, setAccessToken } from './features/UserSlice';
 import axios from 'axios';
 import Loading from './components/loading';
+import Pnf from './pages/Pnf';
 
 function App() {
   const navigate = useNavigate()
@@ -23,13 +24,11 @@ function App() {
       .then(res => {
         dispatch(setCurrUser(res.data.resCred));
         dispatch(setAccessToken(res.data.accessToken));
-        // setUser(true) 
         setLoading(false);
       })
       .catch(err => {
         console.error(err);
         setLoading(false);
-        // setUser(false);
         navigate('/');
       })
     }
@@ -49,6 +48,7 @@ function App() {
         <Route path='/filter' element={loading ? <Loading/> :<UnderConstruction/>} />
         <Route path='/team' element={loading ? <Loading/> :<UnderConstruction/>} />
         <Route path='/app' element={loading ? <Loading/> :<UnderConstruction/>} />
+        <Route path='*' element={loading ? <Loading/> :<Pnf/>} />
       </Routes>
     </>    
   )
